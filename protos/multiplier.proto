@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "github.com/jegacs/multiplier-service/protos";
+
+package protos;
+
+// The multiplier service definition.
+service Multiplier {
+  // compute multiplication
+  rpc Multiply (MultiplierRequest) returns (MultiplierResponse) {}
+}
+
+// The request message containing the user's name.
+message MultiplierRequest {
+  string first = 1;
+  string second = 2;
+}
+
+// The response message containing the greetings
+message MultiplierResponse {
+  string result = 1;
+  string error = 2;
+}
