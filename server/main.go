@@ -13,16 +13,19 @@ const (
 )
 
 func main() {
-	mode := flag.String("mode", "", "Mode to run the server: http or grpc mode. gRPC mode is run if no argument is passed.")
+	httpFlag := flag.Bool("http", false, "Run the server in http mode.")
+	grpcFlag := flag.Bool("grpc", true, "Run the server in grpc mode.")
+	flag.Parse()
 
-	switch *mode {
-	case "":
-		handlers.RunGRPCServer(GRPC_ADDRESS)
-	case "grpc":
-		handlers.RunGRPCServer(GRPC_ADDRESS)
-	case "http":
+	if *httpFlag {
+		log.Println("running http mode")
 		handlers.RunHTTPServer(HTTP_ADDRESS)
-	default:
-		log.Fatalln("unknown mode, usage: -mode={grpc|http}")
+		return
+	}
+
+	if *grpcFlag {
+		log.Println("running in grpc mode")
+		handlers.RunGRPCServer(GRPC_ADDRESS)
+		return
 	}
 }
