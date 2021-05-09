@@ -61,7 +61,7 @@ func (s *Service) Calculate() (string, error) {
 
 // Check if the format of the string encoded decimal number is correct.
 func (s *Service) isFormatCorrect(number string) bool {
-	r, err := regexp.Compile(`\d+(\.\d{1,2})?`)
+	r, err := regexp.Compile(`^-{0,1}[0-9]+(\.[0-9]{1,2})?$`)
 	if err != nil {
 		panic(err)
 	}
