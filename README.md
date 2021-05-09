@@ -65,5 +65,6 @@ little bit more.
 operations being done.
 - Think of a way to scale the service by calculating several
 operations concurrently.
-
-
+- Some HTTP responses were mapped as InternalServerError
+when treating wrong number's format. I would change this
+to return a response with BadRequest code instead.
