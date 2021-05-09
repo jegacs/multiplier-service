@@ -5,6 +5,15 @@
 Design a service to multiply two numbers in Go. Use both gRPC
 and REST to serve the requests.
 
+
+## Project structure
+- The service logic is in /services directory.
+- Both gRPC and HTTP server are located in /server directory.
+- gRPC service and protocol buffer definitions are located in /protos directory.
+- A couple of custom errors are located in /errors directory.
+- The REST payload and responses are located in /dto directory.
+- An example to test the gRPC mode of the server is located in /grpc-client directory (further explanation below).
+
 ## Usage
 
 Change to the server/ directory and compile the service.
