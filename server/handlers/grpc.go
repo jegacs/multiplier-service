@@ -24,7 +24,7 @@ func (s *GRPCServer) Multiply(ctx context.Context, in *pb.MultiplierRequest) (*p
 		log.Printf("error: %v", err)
 	}
 
-	return &pb.MultiplierResponse{Result: result}, err
+	return &pb.MultiplierResponse{Result: result, Error: err.Error()}, err
 }
 
 func RunGRPCServer(addr string) {
