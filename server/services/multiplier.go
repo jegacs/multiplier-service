@@ -3,6 +3,8 @@ package services
 import (
 	"fmt"
 	"math/big"
+
+	"github.com/jegacs/multiplier-service/errors"
 )
 
 type Service struct {
@@ -25,8 +27,17 @@ func (s *Service) Calculate() (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	if err := s.checkNumberLimits(first); err != nil {
+		return "", err
+	}
+
 	second, _, err := big.ParseFloat(s.second, 10, 256, big.ToNearestEven)
 	if err != nil {
+		return "", err
+	}
+
+	if err := s.checkNumberLimits(second); err != nil {
 		return "", err
 	}
 	// Perform the multiplication
@@ -34,7 +45,31 @@ func (s *Service) Calculate() (string, error) {
 
 	// Truncate the values to two decimal numbers
 	// productTimes100, _ := new(big.Float).Mul(product, big.NewFloat(100)).Float64()
-	truncatedTimesProduct := fmt.Sprintf("%f", product)
+	truncatedTimesProduct := fmt.Sprintf("%.2f", product)
 
 	return truncatedTimesProduct, nil
+}
+
+func (s *Service) checkNumberLimits(number *big.Float) error {
+	if s.isGreaterThanLimit(number) {
+		return errors.ErrGreaterThanLimit
+	}
+
+	if s.isLowerThanLimit(number) {
+		return errors.ErrSmallerThanLimit
+	}
+
+	return nil
+}
+
+func (s *Service) isGreaterThanLimit(number *big.Float) bool {
+	upperLimit, _, _ := big.ParseFloat("1000.00", 10, 256, big.ToNearestEven)
+
+	return number.Cmp(upperLimit) == 1
+}
+
+func (s *Service) isLowerThanLimit(number *big.Float) bool {
+	lowerLimit, _, _ := big.ParseFloat("-1000.00", 10, 256, big.ToNearestEven)
+
+	return number.Cmp(lowerLimit) == -1
 }
