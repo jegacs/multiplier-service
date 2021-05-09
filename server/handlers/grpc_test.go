@@ -34,5 +34,83 @@ func TestGRPCMultiplyHandler(t *testing.T) {
 				}
 			})
 		})
+
+		t.Run("given number formats done wrong", func(t *testing.T) {
+			t.Run("numbers empty", func(t *testing.T) {
+				response, err := server.Multiply(context.Background(), &pb.MultiplierRequest{
+					First:  "",
+					Second: "10",
+				})
+
+				t.Run("error should not be nil", func(t *testing.T) {
+					if err == nil {
+						t.Errorf("error should not be nil")
+					}
+				})
+
+				t.Run("result should be empty", func(t *testing.T) {
+					if response.Result != "" {
+						t.Errorf("result should be empty")
+					}
+				})
+
+				t.Run("Error field should not be empty", func(t *testing.T) {
+					if response.Error == "" {
+						t.Errorf("Error field should not be empty")
+					}
+				})
+			})
+
+			t.Run("not numbers in request", func(t *testing.T) {
+				response, err := server.Multiply(context.Background(), &pb.MultiplierRequest{
+					First:  "fdfdfdfdfd",
+					Second: "123",
+				})
+
+				t.Run("error should not be nil", func(t *testing.T) {
+					if err == nil {
+						t.Errorf("error should not be nil")
+					}
+				})
+
+				t.Run("result should be empty", func(t *testing.T) {
+					if response.Result != "" {
+						t.Errorf("result should be empty")
+					}
+				})
+
+				t.Run("Error field should not be empty", func(t *testing.T) {
+					if response.Error == "" {
+						t.Errorf("Error field should not be empty")
+					}
+				})
+			})
+
+			t.Run("numbers out of limit", func(t *testing.T) {
+				response, err := server.Multiply(context.Background(), &pb.MultiplierRequest{
+					First:  "100000000",
+					Second: "100000000",
+				})
+
+				t.Run("error should not be nil", func(t *testing.T) {
+					if err == nil {
+						t.Errorf("error should not be nil")
+					}
+				})
+
+				t.Run("result should be empty", func(t *testing.T) {
+					if response.Result != "" {
+						t.Errorf("result should be empty")
+					}
+				})
+
+				t.Run("Error field should not be empty", func(t *testing.T) {
+					if response.Error == "" {
+						t.Errorf("Error field should not be empty")
+					}
+				})
+			})
+
+		})
 	})
 }
