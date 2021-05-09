@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"math/big"
+	"regexp"
 
 	"github.com/jegacs/multiplier-service/errors"
 )
@@ -22,6 +23,14 @@ func NewMultiplierService(first, second string) *Service {
 
 // Calculate performs the multiplication of the values stored in the service struct.
 func (s *Service) Calculate() (string, error) {
+	if !s.isFormatCorrect(s.first) {
+		return "", errors.ErrBadFormatNumber
+	}
+
+	if !s.isFormatCorrect(s.second) {
+		return "", errors.ErrBadFormatNumber
+	}
+
 	// Parse the float with bigger precision (256 bits)
 	first, _, err := big.ParseFloat(s.first, 10, 256, big.ToNearestEven)
 	if err != nil {
@@ -48,6 +57,15 @@ func (s *Service) Calculate() (string, error) {
 	truncatedTimesProduct := fmt.Sprintf("%.2f", product)
 
 	return truncatedTimesProduct, nil
+}
+
+// Check if the format of the string encoded decimal number is correct.
+func (s *Service) isFormatCorrect(number string) bool {
+	r, err := regexp.Compile(`\d+(\.\d{1,2})?`)
+	if err != nil {
+		panic(err)
+	}
+	return r.MatchString(number)
 }
 
 func (s *Service) checkNumberLimits(number *big.Float) error {
