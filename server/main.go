@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	GRPC_ADDRESS = "localhost:9999"
-	HTTP_ADDRESS = "localhost:8000"
+	GRPC_ADDRESS = ":9999"
+	HTTP_ADDRESS = ":8000"
 )
 
 func main() {
