@@ -18,7 +18,7 @@ func (s *RESTServer) SetMultiplyHandler() {
 }
 
 func httpMultiplyHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request received!")
+	fmt.Print("Request received! ")
 	switch r.Method {
 	case "POST":
 		body, err := ioutil.ReadAll(r.Body)
@@ -39,7 +39,7 @@ func httpMultiplyHandler(w http.ResponseWriter, r *http.Request) {
 			return
 
 		}
-
+		log.Printf("First: %v, Second: %v", request.First, request.Second)
 		service := services.NewMultiplierService(request.First, request.Second)
 		result, err := service.Calculate()
 		if err != nil {
