@@ -13,5 +13,5 @@ func NewMultiplierService(first, second string) *Service {
 }
 
 func (s *Service) Calculate() (string, error) {
-	return "", nil
+	return "rolando ando", nil
 }
