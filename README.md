@@ -47,8 +47,8 @@ In order to run the tests and print the coverage of the project, go to the root 
 go test ./... -coverprofile cover.out
 ```
 ## Limitations
-- The two numbers inserted are processed as strings, being parsed with math/big and processed package.
-- The precission setting used for the multiplication and parsing the numbers is 256 
+- The two numbers inserted are processed as strings, being parsed and processed with math/big package.
+- The precission setting used for the multiplication and parsing the numbers is 256 bits.
 - An arbitrary upper and limit for each number has been set [-1000, 1000]. These limits were chosen as arbitrary as possible in order to validate in unit tests the captabilities
 of the API.
 - The result of the product is truncated to two decimals and 
